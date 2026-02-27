@@ -23,7 +23,7 @@ jobs:
 
       # 3️⃣ Install Expo CLI and EAS CLI
       - name: Install Expo and EAS CLI
-        run: npm install -g expo-cli eas-cli
+  run: npm install -g eas-cli expo
 
       # 4️⃣ Log in to Expo
       - name: Login to Expo
