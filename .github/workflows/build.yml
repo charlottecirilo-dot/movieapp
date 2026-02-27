@@ -15,15 +15,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Node 18 LTS
+      # 2️⃣ Set up Node 20
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
-      # 3️⃣ Install Expo CLI
-      - name: Install Expo CLI
-        run: npm install -g expo-cli
+      # 3️⃣ Install Expo CLI and EAS CLI
+      - name: Install Expo and EAS CLI
+        run: npm install -g expo-cli eas-cli
 
       # 4️⃣ Log in to Expo
       - name: Login to Expo
@@ -35,10 +35,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 6️⃣ Build Android (EAS cloud build)
+      # 6️⃣ Build Android APK using preview profile
       - name: Build Android APK
         run: npx eas build --platform android --profile preview --non-interactive
 
-      # 7️⃣ Print download link
+      # 7️⃣ Print download link in logs
       - name: Show Build Info
         run: npx eas build:list --platform android
