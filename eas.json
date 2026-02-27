@@ -1,0 +1,21 @@
+{
+  "cli": {
+    "version": ">= 8.0.0"
+  },
+  "build": {
+    "production": {
+      "node": "20.x",
+      "yarn": "4.0.1"
+    },
+    "preview": {
+      "node": "20.x"
+    },
+    "development": {
+      "node": "20.x",
+      "developmentClient": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
