@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
 
       # 3️⃣ Install Expo CLI
       - name: Install Expo CLI
@@ -37,7 +37,7 @@ jobs:
 
       # 6️⃣ Build Android (EAS cloud build)
       - name: Build Android APK
-        run: npx eas build --platform android --non-interactive
+        run: npx eas build --platform android --profile preview --non-interactive
 
       # 7️⃣ Print download link
       - name: Show Build Info
