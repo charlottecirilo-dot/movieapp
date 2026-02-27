@@ -1,46 +1,53 @@
-name: Build APK with EAS
+name: Expo Cloud Build
 
+# Trigger build on push to main or manual workflow dispatch
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
+    steps:
+      # 1️⃣ Checkout your code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Set up Node 18 LTS
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      # 3️⃣ Install Expo CLI
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
 
-      - name: Setup EAS
-        run: npm install -g eas-cli
-
-      - name: Check Expo Project
-        run: npx expo --version
-
-      - name: Build APK with EAS
-        run: eas build --platform android --profile production --non-interactive
+      # 4️⃣ Log in to Expo using your token
+      - name: Login to Expo
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: expo login --token $EXPO_TOKEN
 
-      - name: Download Build Artifact
-        run: |
-          BUILD_ID=$(eas build:list --platform android --json | jq -r '.[0].id')
-          echo "BUILD_ID=$BUILD_ID" >> $GITHUB_ENV
+      # 5️⃣ Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-      - name: Upload to GitHub Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      # 6️⃣ Build Android (APK)
+      - name: Build Android APK
+        run: npx eas build --platform android --profile preview --non-interactive
+
+      # Optional: Build iOS (IPA) if you have Apple developer account
+      #- name: Build iOS IPA
+      #  run: npx eas build --platform ios --profile preview --non-interactive
+
+      # 7️⃣ Upload Android build artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
         with:
-          files: |
-            ${{ env.BUILD_ARTIFACT }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: android-apk
+          path: |
+            ./build/*.apk
