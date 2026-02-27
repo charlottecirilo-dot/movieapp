@@ -4,14 +4,14 @@
   },
   "build": {
     "production": {
-      "node": "20.x",
+      "node": "18.x",
       "yarn": "4.0.1"
     },
     "preview": {
-      "node": "20.x"
+      "node": "18.x"
     },
     "development": {
-      "node": "20.x",
+      "node": "18.x",
       "developmentClient": true
     }
   },
