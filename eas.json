@@ -4,14 +4,17 @@
   },
   "build": {
     "production": {
-      "node": "18.x",
+      "node": "20.x",
       "yarn": "4.0.1"
     },
     "preview": {
-      "node": "18.x"
+      "node": "20.x",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "development": {
-      "node": "18.x",
+      "node": "20.x",
       "developmentClient": true
     }
   },
