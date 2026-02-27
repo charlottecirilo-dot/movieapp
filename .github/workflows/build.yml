@@ -1,6 +1,5 @@
 name: Expo Cloud Build
 
-# Trigger build on push to main or manual workflow dispatch
 on:
   push:
     branches:
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your code
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -26,7 +25,7 @@ jobs:
       - name: Install Expo CLI
         run: npm install -g expo-cli
 
-      # 4️⃣ Log in to Expo using your token
+      # 4️⃣ Log in to Expo
       - name: Login to Expo
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
@@ -36,18 +35,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 6️⃣ Build Android (APK)
+      # 6️⃣ Build Android (EAS cloud build)
       - name: Build Android APK
-        run: npx eas build --platform android --profile preview --non-interactive
+        run: npx eas build --platform android --non-interactive
 
-      # Optional: Build iOS (IPA) if you have Apple developer account
-      #- name: Build iOS IPA
-      #  run: npx eas build --platform ios --profile preview --non-interactive
-
-      # 7️⃣ Upload Android build artifact
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: android-apk
-          path: |
-            ./build/*.apk
+      # 7️⃣ Print download link
+      - name: Show Build Info
+        run: npx eas build:list --platform android
